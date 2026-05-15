@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO Optimization -->
+  <title>Wang Qi — Creative Frontend Developer & UI/UX Designer | Tokyo</title>
+  <meta name="description" content="Wang Qi is a professional Frontend Developer based in Tokyo, specializing in high-converting SaaS landing pages, interactive web experiences, and production-grade AI UI systems.">
+  
+  <style>
+    /* ==========================================
+       1. GLOBAL DESIGN SYSTEM & TOKENS (Premium White Aesthetic)
+       ========================================== */
+    :root {
+      --bg: #ffffff;
+      --bg-subtle: #f5f5f7;
+      --text-main: #1d1d1f;
+      --text-muted: #86868b;
+      --accent: #000000;
+      --border: rgba(0, 0, 0, 0.08);
+      --easing: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    
+    /* 顶部导航 */
+    .nav { padding: 32px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .brand { font-weight: 700; letter-spacing: -0.5px; font-size: 18px; text-transform: uppercase; }
+    .status { font-size: 13px; color: #34c759; background: rgba(52, 199, 89, 0.08); padding: 6px 14px; border-radius: 999px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+    .status-dot { width: 6px; height: 6px; background: #34c759; border-radius: 50%; }
+
+    /* ② HERO SECTION (白底首屏，宣言式高转化定位) */
+    .hero { min-height: 80vh; display: flex; align-items: center; padding: 60px 0; }
+    .hero-badge { display: inline-block; padding: 6px 14px; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 24px; letter-spacing: 0.5px; }
+    .hero-title { font-size: clamp(44px, 7vw, 80px); font-weight: 700; letter-spacing: -3px; line-height: 1.05; margin: 0 0 24px 0; color: var(--text-main); }
+    .hero-description { font-size: clamp(18px, 2.5vw, 22px); color: var(--text-muted); max-width: 760px; line-height: 1.5; font-weight: 300; margin: 0 0 40px 0; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 40px; font-size: 15px; color: var(--text-muted); }
+    .meta-item { display: flex; align-items: center; gap: 8px; }
+    
+    /* CTA 按钮组件 */
+    .cta-group { display: flex; gap: 16px; }
+    .btn-primary { display: inline-block; padding: 14px 36px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 999px; font-weight: 500; transition: transform 0.3s var(--easing), box-shadow 0.3s var(--easing); }
+    .btn-primary:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    .btn-secondary { display: inline-block; padding: 14px 36px; background: var(--bg-subtle); color: var(--text-main); text-decoration: none; border-radius: 999px; font-weight: 500; border: 1px solid var(--border); transition: background 0.3s; }
+    .btn-secondary:hover { background: rgba(0,0,0,0.05); }
+
+    /* ③ ABOUT / 简介板块 */
+    .about-section { padding: 100px 0; background: var(--bg-subtle); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .section-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 12px; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 32px; } }
+    .about-text { font-size: 18px; line-height: 1.6; color: var(--text-main); font-weight: 400; }
+    .about-text p { margin: 0 0 24px 0; }
+    .skills-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .skills-list li { font-size: 15px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+    .skills-list li::before { content: "—"; color: var(--text-main); }
+
+    /* ④ PROJECTS / 多样化案例网格 */
+    .showcase { padding: 100px 0; }
+    .section-title { font-size: 36px; letter-spacing: -1.5px; margin-bottom: 48px; font-weight: 700; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+    
+    /* 核心项目卡片组件 */
+    .card {
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 40px; border-radius: 24px; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; justify-content: space-between; min-height: 280px;
+      transition: transform 0.6s var(--easing), border-color 0.4s var(--easing), box-shadow 0.4s var(--easing);
+    }
+    .card:hover { 
+      transform: translateY(-8px); 
+      border-color: rgba(0, 0, 0, 0.3); 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    }
+    .card h3 { font-size: 24px; margin: 0 0 16px 0; font-weight: 600; letter-spacing: -0.5px; }
+    .card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; margin: 0 0 24px 0; font-weight: 300; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; }
+    .tag { background: var(--bg-subtle); padding: 6px 14px; border-radius: 8px; font-size: 12px; color: var(--text-main); border: 1px solid var(--border); font-weight: 500; }
+    .action-arrow { font-size: 18px; color: var(--text-muted); transition: transform 0.3s; }
+    .card:hover .action-arrow { transform: translateX(4px); color: var(--accent); }
+
+    /* ⑤ CONTACT / 联系板块 */
+    .contact-section { padding: 100px 0; text-align: center; border-top: 1px solid var(--border); }
+    .contact-title { font-size: 48px; font-weight: 700; letter-spacing: -2px; margin: 0 0 20px 0; }
+    .contact-p { color: var(--text-muted); font-size: 18px; max-width: 600px; margin: 0 auto 40px auto; font-weight: 300; line-height: 1.5; }
+
+    /* 高性能滚动淡入 */
+    .reveal { opacity: 0; transform: translateY(20px); transition: all 1s var(--easing); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 头部导航 -->
+    <nav class="nav">
+      <a href="index.html" class="brand" style="text-decoration: none; color: inherit;">Wang Qi</a>
+      <div class="nav-status"><div class="status-dot"></div> Available for Projects & Internships</div>
+    </nav>
+    
+    <!-- Hero 核心宣告区 (白底首屏) -->
+    <section class="hero">
+      <div class="reveal" id="hero-reveal">
+        <div class="hero-badge">CREATIVE FRONTEND DEVELOPER</div>
+        <h1 class="hero-title">I design and build clean, interactive web experiences.</h1>
+        <p class="hero-description">Applying first-principles thinking to digital interfaces. I eliminate bloat to engineer high-performance web applications, fluid UI interactions, and robust conversion engines.</p>
+        
+        <!-- 地理位置与意向元数据 -->
+        <div class="hero-meta">
+          <div class="meta-item">📍 Based in Tokyo, Japan</div>
+          <div class="meta-item">📫 wangq4149@gmail.com</div>
+        </div>
+
+        <div class="cta-group">
+          <a href="mailto:wangq4149@gmail.com" class="btn-primary">Hire Me / Contact</a>
+          <a href="#work" class="btn-secondary">View Production Line</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- About 简介版块 -->
+  <section class="about-section">
+    <div class="container about-grid">
+      <div class="reveal">
+        <div class="section-label">About Me</div>
+        <div class="about-text">
+          <p>I am a developer and designer focused on building premium web interfaces and portfolio-level projects. I strive to bridge the gap between rigorous functional engineering and refined visual storytelling.</p>
+          <p>Currently based in Tokyo, I am fully preparing for high-impact opportunities in international tech teams, remote freelance contracts, and global service delivery platforms.</p>
+        </div>
+      </div>
+      <div class="reveal" style="display: flex; flex-direction: column; justify-content: center;">
+        <div class="section-label">Core Capabilities</div>
+        <ul class="skills-list">
+          <li>Web Development (HTML/CSS/JS)</li>
+          <li>UI/UX Prototyping</li>
+          <li>SaaS Conversion Design</li>
+          <li>Asynchronous Interaction</li>
+          <li>CI/CD (GitHub & Vercel)</li>
+          <li>Atomic Design Systems</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <!-- 项目组合展示网格 (3大样板资产齐全) -->
+    <section id="work" class="showcase">
+      <div class="section-label reveal">Production Line</div>
+      <h2 class="section-title reveal">Featured Engineering Assets</h2>
+      
+      <div class="grid">
+        
+        <!-- 项目 1: 个人主站组合 (自我嵌套证明) -->
+        <a href="index.html" class="card reveal">
+          <div>
+            <h3>Personal Portfolio Website</h3>
+            <p>A responsive, high-performance portal designed under strict minimalist constraints. Features standard SEO meta tokens and automated CI/CD pipeline deployments.</p>
+          </div>
+          <div class="card-footer">
+            <span class="tag">Production Hub</span>
+            <span class="action-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- 项目 2: AI工具页面 -->
+        <a href="project-2.html" class="card reveal">
+          <div>
+            <h3>NexusAI — Dynamic Chat UI</h3>
+            <p>A production-grade AI interaction panel simulating natural user workflows, asynchronous state execution, and fluid打字机 micro-motions without external frameworks.</p>
+          </div>
+          <div class="card-footer">
+            <span class="tag">Interactive UI Prototype</span>
+            <span class="action-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- 项目 3: 商业落地页 -->
+        <a href="project-3.html" class="card reveal">
+          <div>
+            <h3>SaaS Conversion Landing Page</h3>
+            <p>A conversion-focused marketing architecture engineered with Apple-standard motion curves to showcase branding metrics and premium startup landing patterns.</p>
+          </div>
+          <div class="card-footer">
+            <span class="tag">Conversion Engineering</span>
+            <span class="action-arrow">→</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Contact 最终行动召唤区 -->
+    <section class="contact-section reveal">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="contact-title">Let's build something exceptional.</h2>
+      <p class="contact-p">I am currently open to freelance web development contracts, startup internships, and remote technical roles worldwide. Let’s connect.</p>
+      <a href="mailto:wangq4149@gmail.com" class="btn-primary" style="font-size: 18px; padding: 16px 48px;">wangq4149@gmail.com</a>
+    </section>
+  </div>
+
+  <script>
+    // 页面加载自动触发首屏动效
+    window.addEventListener('DOMContentLoaded', () => { 
+      document.getElementById('hero-reveal').classList.add('visible'); 
+    });
+
+    // 高性能滚动监听触发淡入
+    const obs = new IntersectionObserver((es) => {
+      es.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
