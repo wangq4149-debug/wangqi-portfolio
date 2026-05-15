@@ -1,422 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wang Qi — Digital Architect & Creative Developer</title>
+  <style>
+    :root {
+      --bg: #030303;
+      --text: #f5f5f7;
+      --muted: #86868b;
+      --card-bg: rgba(255, 255, 255, 0.02);
+      --card-border: rgba(255, 255, 255, 0.05);
+      --accent: #6366f1;
+      --easing: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    
+    /* 跟随鼠标的高级发光粒子背景 */
+    #glow-effect {
+      position: fixed; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.05), transparent 70%);
+      pointer-events: none; border-radius: 50%; transform: translate(-50%, -50%);
+      will-change: left, top; z-index: 0;
+    }
 
-<title>Wang Qi — Creative Developer</title>
+    /* 导航栏 */
+    .nav { padding: 40px 0; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 10; }
+    .brand { font-weight: 700; letter-spacing: -0.5px; font-size: 20px; }
+    .status { font-size: 13px; color: #34c759; background: rgba(52, 199, 89, 0.08); padding: 6px 14px; border-radius: 999px; display: flex; align-items: center; gap: 6px; }
+    .status-dot { width: 6px; height: 6px; background: #34c759; border-radius: 50%; }
 
-<style>
+    /* Hero 核心视觉区 */
+    .hero { height: 75vh; display: flex; align-items: center; position: relative; z-index: 1; }
+    .hero-title { font-size: clamp(40px, 7vw, 76px); font-weight: 700; letter-spacing: -3px; line-height: 1.1; margin: 0 0 24px 0; }
+    .hero-p { font-size: clamp(18px, 2.5vw, 22px); color: var(--muted); max-width: 720px; line-height: 1.5; font-weight: 300; margin: 0 0 40px 0; }
+    .btn { display: inline-block; padding: 14px 36px; background: #fff; color: #000; text-decoration: none; border-radius: 999px; font-weight: 500; transition: transform 0.3s var(--easing); }
+    .btn:hover { transform: scale(1.02); }
 
-:root{
-  --bg:#050505;
-  --card:rgba(255,255,255,0.03);
-  --border:rgba(255,255,255,0.08);
-  --text:#f5f5f7;
-  --muted:#8d8d92;
-  --ease:cubic-bezier(0.16,1,0.3,1);
-}
+    /* 资产网格布局 */
+    .showcase { padding: 80px 0 140px 0; position: relative; z-index: 1; }
+    .section-title { font-size: 28px; letter-spacing: -1px; margin-bottom: 48px; color: var(--muted); font-weight: 400; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px; }
+    
+    /* 核心卡片组件 */
+    .card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      padding: 40px; border-radius: 24px; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; justify-content: space-between; min-height: 260px;
+      backdrop-filter: blur(20px);
+      transition: transform 0.6s var(--easing), border-color 0.4s var(--easing), box-shadow 0.4s var(--easing);
+    }
+    .card:hover { 
+      transform: translateY(-8px); 
+      border-color: rgba(99, 102, 241, 0.3); 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .card h3 { font-size: 24px; margin: 0 0 16px 0; font-weight: 600; letter-spacing: -0.5px; }
+    .card p { color: var(--muted); font-size: 15px; line-height: 1.6; margin: 0; font-weight: 300; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; }
+    .tag { background: rgba(255,255,255,0.04); padding: 6px 14px; border-radius: 8px; font-size: 12px; color: var(--text); border: 1px solid var(--card-border); }
+    .action-arrow { font-size: 18px; color: var(--muted); transition: transform 0.3s; }
+    .card:hover .action-arrow { transform: translateX(4px); color: #fff; }
 
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-
-/* =========================
-   LIGHT
-========================= */
-
-#light{
-  position:fixed;
-  width:420px;
-  height:420px;
-  border-radius:50%;
-  pointer-events:none;
-  background:
-  radial-gradient(circle,
-  rgba(255,255,255,0.08),
-  transparent 70%);
-  transform:translate(-50%,-50%);
-  z-index:0;
-}
-
-/* =========================
-   NAV
-========================= */
-
-.nav{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  padding:28px 40px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:50;
-}
-
-.logo{
-  font-size:15px;
-  font-weight:700;
-  letter-spacing:2px;
-  padding:10px 14px;
-  border-radius:14px;
-  text-decoration:none;
-  color:var(--text);
-  border:1px solid var(--border);
-  background:rgba(255,255,255,0.03);
-  backdrop-filter:blur(10px);
-  transition:0.4s var(--ease);
-}
-
-.logo:hover{
-  background:white;
-  color:black;
-}
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  z-index:2;
-  padding:0 20px;
-}
-
-.hero-inner{
-  text-align:center;
-  max-width:900px;
-}
-
-.title{
-  font-size:clamp(60px,10vw,130px);
-  letter-spacing:-6px;
-  line-height:0.92;
-  margin:0;
-  font-weight:700;
-}
-
-.subtitle{
-  margin-top:28px;
-  font-size:clamp(18px,2vw,24px);
-  line-height:1.6;
-  color:var(--muted);
-  font-weight:400;
-  letter-spacing:-0.4px;
-}
-
-/* =========================
-   BUTTON
-========================= */
-
-.button{
-  margin-top:44px;
-  border:none;
-  outline:none;
-  color:var(--text);
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.08);
-  padding:16px 34px;
-  border-radius:999px;
-  font-size:15px;
-  cursor:pointer;
-  backdrop-filter:blur(10px);
-  transition:
-  transform .5s var(--ease),
-  background .5s var(--ease),
-  border-color .5s var(--ease);
-}
-
-.button:hover{
-  transform:translateY(-2px);
-  background:rgba(255,255,255,0.12);
-  border-color:rgba(255,255,255,0.2);
-}
-
-/* =========================
-   SECTION
-========================= */
-
-.section{
-  max-width:1200px;
-  margin:0 auto;
-  padding:160px 20px;
-  position:relative;
-  z-index:2;
-}
-
-.section-title{
-  font-size:clamp(34px,4vw,48px);
-  letter-spacing:-2px;
-  margin-bottom:60px;
-}
-
-/* =========================
-   GRID
-========================= */
-
-.grid{
-  display:grid;
-  grid-template-columns:
-  repeat(auto-fit,minmax(340px,1fr));
-  gap:28px;
-}
-
-.card{
-  min-height:300px;
-  border-radius:28px;
-  padding:44px;
-  background:var(--card);
-  border:1px solid var(--border);
-  backdrop-filter:blur(20px);
-  transition:
-  transform .7s var(--ease),
-  border-color .4s var(--ease),
-  background .4s var(--ease);
-}
-
-.card:hover{
-  transform:translateY(-8px);
-  border-color:rgba(255,255,255,0.15);
-  background:rgba(255,255,255,0.05);
-}
-
-.card h3{
-  margin:0 0 18px 0;
-  font-size:28px;
-  letter-spacing:-1px;
-}
-
-.card p{
-  margin:0;
-  color:var(--muted);
-  line-height:1.7;
-  font-size:15px;
-}
-
-.tag{
-  display:inline-block;
-  margin-top:30px;
-  padding:8px 14px;
-  border-radius:999px;
-  font-size:12px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.05);
-}
-
-/* =========================
-   ANIMATION
-========================= */
-
-.fade{
-  opacity:0;
-  transform:translateY(30px);
-  transition:
-  opacity 1.2s var(--ease),
-  transform 1.2s var(--ease);
-}
-
-.fade.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-</style>
+    /* 高性能淡入动效 */
+    .reveal { opacity: 0; transform: translateY(20px); transition: all 1s var(--easing); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
 </head>
-
 <body>
 
-<div id="light"></div>
+  <div id="glow-effect"></div>
 
-<nav class="nav">
-  <a href="#" class="logo">WQ</a>
-</nav>
+  <div class="container">
+    <!-- 头部导航 -->
+    <nav class="nav">
+      <div class="brand">WQ.STUDIO</div>
+      <div class="status"><div class="status-dot"></div> Available for Global Projects</div>
+    </nav>
+    
+    <!-- Hero 宣言区 -->
+    <section class="hero">
+      <div class="reveal" id="hero-reveal">
+        <h1 class="hero-title">Engineering High-End Web Applications & Conversion Engines.</h1>
+        <p class="hero-p">A specialized digital workshop focused on crafting premium UI systems and scalable frontend products for cross-border businesses.</p>
+        <a href="#work" class="btn">View Production Line</a>
+      </div>
+    </section>
 
-<section class="hero">
+    <!-- 生产线/项目展示网格 -->
+    <section id="work" class="showcase">
+      <h2 class="section-title reveal">Capabilities & Assets</h2>
+      <div class="grid">
+        
+        <!-- 资产 1: AI工具页面 -->
+        <a href="project-2.html" class="card reveal">
+          <div>
+            <h3>NexusAI — Product Interface</h3>
+            <p>A production-grade AI interaction panel simulating natural user workflows, asynchronous state execution, and dynamic micro-motions.</p>
+          </div>
+          <div class="card-footer">
+            <span class="tag">AI Application UI</span>
+            <span class="action-arrow">→</span>
+          </div>
+        </a>
 
-  <div class="hero-inner fade" id="hero">
+        <!-- 资产 2: 商业落地页 -->
+        <a href="project-3.html" class="card reveal">
+          <div>
+            <h3>Conversion Architecture</h3>
+            <p>A premium dark-themed landing page template engineered to maximize SaaS user conversions and product authority.</p>
+          </div>
+          <div class="card-footer">
+            <span class="tag">Conversion Engineering</span>
+            <span class="action-arrow">→</span>
+          </div>
+        </a>
 
-    <h1 class="title">
-      Wang Qi
-    </h1>
-
-    <p class="subtitle">
-      Building immersive digital experiences
-      through interaction, motion and code.
-    </p>
-
-    <button class="button" id="btn">
-      Explore Showcase
-    </button>
-
+      </div>
+    </section>
   </div>
 
-</section>
+  <script>
+    // 渲染极简渐变背景光晕
+    const glow = document.getElementById("glow-effect");
+    let mx = 0, my = 0;
+    document.addEventListener("mousemove", (e) => { mx = e.clientX; my = e.clientY; });
+    function loop() { glow.style.left = mx + "px"; glow.style.top = my + "px"; requestAnimationFrame(loop); }
+    loop();
 
-<section class="section" id="projects">
+    // 页面加载自动触发首屏动效
+    window.addEventListener('DOMContentLoaded', () => { document.getElementById('hero-reveal').classList.add('visible'); });
 
-  <h2 class="section-title fade">
-    Selected Experiments
-  </h2>
-
-  <div class="grid">
-
-    <div class="card fade">
-      <div>
-        <h3>Interactive 3D System</h3>
-
-        <p>
-          Real-time particle universe powered
-          by fluid interaction systems and
-          gesture-based mathematical motion.
-        </p>
-      </div>
-
-      <div class="tag">
-        Three.js / WebGL
-      </div>
-    </div>
-
-    <div class="card fade">
-      <div>
-        <h3>Voice Intelligence Note</h3>
-
-        <p>
-          Experimental conversational interface
-          integrating AI voice streaming and
-          multilingual interaction layers.
-        </p>
-      </div>
-
-      <div class="tag">
-        AI / Audio API
-      </div>
-    </div>
-
-    <div class="card fade">
-      <div>
-        <h3>First-Principles Portfolio</h3>
-
-        <p>
-          Minimalist interaction framework
-          engineered with GPU accelerated
-          rendering and micro-motion systems.
-        </p>
-      </div>
-
-      <div class="tag">
-        UI Architecture
-      </div>
-    </div>
-
-  </div>
-
-</section>
-
-<script>
-
-const light=document.getElementById("light");
-
-let mouseX=0;
-let mouseY=0;
-
-document.addEventListener("mousemove",(e)=>{
-
-  mouseX=e.clientX;
-  mouseY=e.clientY;
-
-});
-
-function animate(){
-
-  light.style.left=mouseX+"px";
-  light.style.top=mouseY+"px";
-
-  requestAnimationFrame(animate);
-
-}
-
-animate();
-
-/* =====================
-   HERO LOAD
-===================== */
-
-window.addEventListener("DOMContentLoaded",()=>{
-
-  document.getElementById("hero")
-  .classList.add("show");
-
-});
-
-/* =====================
-   BUTTON
-===================== */
-
-document.getElementById("btn")
-.addEventListener("click",()=>{
-
-document.getElementById("projects")
-.scrollIntoView({
-
-behavior:"smooth"
-
-});
-
-});
-
-/* =====================
-   OBSERVER
-===================== */
-
-const observer=new IntersectionObserver(
-
-(entries)=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.classList.add("show");
-
-observer.unobserve(entry.target);
-
-}
-
-});
-
-},
-
-{
-threshold:0.12
-}
-
-);
-
-document
-.querySelectorAll(".fade")
-.forEach(el=>observer.observe(el));
-
-</script>
-
+    // 滚动监听淡入
+    const obs = new IntersectionObserver((es) => {
+      es.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
 </body>
 </html>
