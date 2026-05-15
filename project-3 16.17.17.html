@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wang Qi — Premium Digital Architect & Creative Developer</title>
+
+  <style>
+    /* ==========================================
+       1. DESIGN SYSTEM & TOKENS
+       ========================================== */
+    :root {
+      --bg-color: #030303;
+      --card-bg: rgba(255, 255, 255, 0.02);
+      --card-border: rgba(255, 255, 255, 0.05);
+      --text-main: #f5f5f7;
+      --text-muted: #86868b;
+      --accent-color: #ffffff;
+      --easing-apple: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ==========================================
+       2. REUSABLE COMPONENTS & UTILITIES
+       ========================================== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* 极致高级感的全屏跟随光晕 */
+    #glow-effect {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 70%);
+      pointer-events: none;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+      z-index: 0;
+    }
+
+    /* 顶级 SaaS 风的 CTA 按钮 */
+    .btn-primary {
+      display: inline-block;
+      padding: 14px 36px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--bg-color);
+      background-color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.3s var(--easing-apple), box-shadow 0.3s var(--easing-apple);
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      padding: 14px 36px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-main);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s var(--easing-apple), border-color 0.3s var(--easing-apple);
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* 高性能滚动淡入类 */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.2s var(--easing-apple), transform 1.2s var(--easing-apple);
+    }
+
+    .scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==========================================
+       3. SECTION LAYOUTS
+       ========================================== */
+    
+    /* 导航栏 */
+    .nav-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 32px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .nav-brand {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      color: inherit;
+      transition: opacity 0.2s;
+    }
+
+    .nav-brand:hover {
+      opacity: 0.8;
+    }
+
+    .nav-status {
+      font-size: 13px;
+      color: #34c759; /* Apple green */
+      background: rgba(52, 199, 89, 0.1);
+      padding: 6px 12px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #34c759;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    /* ① Hero Section */
+    .hero-section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-container {
+      max-width: 800px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+      color: var(--text-muted);
+    }
+
+    .hero-title {
+      font-size: clamp(44px, 7vw, 84px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -3px;
+      margin: 0 0 24px 0;
+    }
+
+    .hero-description {
+      font-size: clamp(18px, 2.5vw, 22px);
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin: 0 0 40px 0;
+      font-weight: 300;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+    }
+
+    /* ② Features Section */
+    .features-section {
+      padding: 140px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 600;
+      letter-spacing: -1.5px;
+      margin: 0 0 64px 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s ease;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .feature-icon {
+      font-size: 24px;
+      margin-bottom: 24px;
+      color: var(--text-main);
+    }
+
+    .feature-card h3 {
+      font-size: 22px;
+      font-weight: 500;
+      margin: 0 0 12px 0;
+      letter-spacing: -0.5px;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ③ Social Proof Section */
+    .proof-section {
+      padding: 60px 0;
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .proof-text {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .logo-cloud {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 64px;
+      flex-wrap: wrap;
+      opacity: 0.4;
+    }
+
+    .logo-item {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    /* ④ CTA Section */
+    .cta-section {
+      padding: 160px 0;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-container {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      margin: 0 0 20px 0;
+    }
+
+    .cta-p {
+      color: var(--text-muted);
+      font-size: 18px;
+      margin: 0 0 40px 0;
+      font-weight: 300;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.5; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 高级网格跟随光晕效果 -->
+  <div id="glow-effect"></div>
+
+  <!-- 头部导航栏：支持点击顺畅返回主站 HUB -->
+  <header class="nav-bar">
+    <a href="index.html" class="nav-brand">← WQ.STUDIO HUB</a>
+    <div class="nav-status">
+      <div class="status-dot"></div> Available for Freelance Project
+    </div>
+  </header>
+
+  <!-- ① HERO SECTION -->
+  <section class="hero-section">
+    <div class="container hero-container scroll-reveal" id="heroReveal">
+      <div class="hero-badge">MVP LANDING PAGES IN 48 HOURS</div>
+      <h1 class="hero-title">I build high-converting landing pages for tech startups.</h1>
+      <p class="hero-description">Transforming your raw product concepts into hyper-polished, premium digital experiences that turn casual traffic into paying users. No fluff, just conversion.</p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn-primary">Book a 15-Min Call</a>
+        <a href="#features" class="btn-secondary">Explore Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ SOCIAL PROOF SECTION -->
+  <section class="proof-section">
+    <div class="container">
+      <div class="proof-text">Global Capabilities & Ecosystem Expertise</div>
+      <div class="logo-cloud">
+        <div class="logo-item">FIVERR PRO</div>
+        <div class="logo-item">THREE.JS</div>
+        <div class="logo-item">REACT</div>
+        <div class="logo-item">SaaS INTERFACES</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② FEATURES & SERVICES SECTION -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <div class="section-label scroll-reveal">Capabilities</div>
+      <h2 class="section-title scroll-reveal">Engineered for growth. Built for speed.</h2>
+      
+      <div class="features-grid">
+        <!-- Card 1 -->
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon">✦</div>
+          <h3>High-Converting Architecture</h3>
+          <p>Every pixel is optimized with absolute precision to drive user action. Ideal for SaaS launches, mobile apps, and digital product rollouts.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon">⚡</div>
+          <h3>Premium UI Micro-motions</h3>
+          <p>Integrating Apple-standard cubic-bezier motion curves and hardware-accelerated layouts to maximize user session depth and brand authority.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon">❖</div>
+          <h3>Clean, Future-Proof Code</h3>
+          <p>Hand-crafted architecture written with production-grade separation of concerns. Ready for seamless scaling or immediate GitHub deployment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ④ CORE CTA SECTION -->
+  <section id="cta" class="cta-section">
+    <div class="container cta-container scroll-reveal">
+      <h2 class="cta-title">Ready to scale your digital presence?</h2>
+      <p class="cta-p">Let’s engineer a premium, high-converting gateway for your product. Slots are strictly limited to ensure elite delivery speed.</p>
+      <a href="mailto:your-email@example.com" class="btn-primary">Secure Your Slot Now</a>
+    </div>
+  </section>
+
+  <!-- 高性能渲染脚本 -->
+  <script>
+    // --- 1. Follower Gradient Background ---
+    const glow = document.getElementById("glow-effect");
+    let mouseX = 0, mouseY = 0;
+
+    document.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function renderGlow() {
+      glow.style.left = mouseX + "px";
+      glow.style.top = mouseY + "px";
+      requestAnimationFrame(renderGlow);
+    }
+    renderGlow();
+
+    // --- 2. Initial Hero Load Trigger ---
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('heroReveal').classList.add('is-visible');
+    });
+
+    // --- 3. Intersection Observer for Scroll Fade-in ---
+    const observerOptions = {
+      root: null,
+      threshold: 0.1
+    };
+
+    const scrollObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target); 
+        }
+      });
+    }, observerOptions);
+
+    const targetElements = document.querySelectorAll('.scroll-reveal');
+    targetElements.forEach(el => scrollObserver.observe(el));
+  </script>
+
+</body>
+</html>
